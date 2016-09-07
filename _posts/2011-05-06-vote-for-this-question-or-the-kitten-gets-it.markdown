@@ -45,7 +45,7 @@ So, yes, **we've known basically forever that questions don't get voted on nearl
 
 
 
-Personally, I'm not convinced this problem is necessarily _solvable_, because it might represent the natural "market value" of questions and answers. Users intuit that **answers are the real unit of work in any Q&A; system** and tend to favor answers in their voting. After all, the world is awash in endless questions, but answers -- great answers -- are a precious and rare commodity indeed.
+Personally, I'm not convinced this problem is necessarily _solvable_, because it might represent the natural "market value" of questions and answers. Users intuit that **answers are the real unit of work in any Q&A system** and tend to favor answers in their voting. After all, the world is awash in endless questions, but answers -- great answers -- are a precious and rare commodity indeed.
 
 
 
