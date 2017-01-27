@@ -10,6 +10,7 @@ module Jekyll
     @@posts
     @@authors
     @@tags
+    @@langs
 
     def initialize
       clear
@@ -27,20 +28,27 @@ module Jekyll
       return @@tags
     end
 
+    def self.langs
+      return @@langs
+    end
+
     def self.clear
       @@posts = []
       @@authors = Hash.new
       @@tags = Hash.new { |hash, key| hash[key] = Tag.new(key) }
+      @@langs = Hash.new
     end
   end
 
   # Wraps a Jekyll post and pre-renders the list view of it once for re-use in many views
   class PreRenderedPost
-    attr_reader :post, :pre_render, :tags, :date, :author
+    attr_reader :post, :pre_render, :tags, :date, :author, :data
     def initialize(site, post)
       @post = post
-      @tags = post.tags
+      @data = @post.data
+      @tags = @data['tags']
       @date = post.date
+      @langs = @data['langs']
 
       payload = Utils.deep_merge_hashes({
         'post' => post.to_liquid,
@@ -48,7 +56,9 @@ module Jekyll
       }, site.site_payload)
       layout = site.layouts['list-post']
       info = { :filters => [Jekyll::Filters], :registers => { :site => site, :page => payload['page'] } }
-      @pre_render = post.render_liquid(layout.content, payload, info, File.join(site.config['layouts'], layout.name))
+      
+      renderer = Renderer::new(site, post)
+      @pre_render = renderer.render_liquid(layout.content, payload, info, File.join(site.config['layouts_dir'], layout.name))
       All.posts << self
     end
 
@@ -73,6 +83,17 @@ module Jekyll
       Utils.deep_merge_hashes({
         'pre_render' => @pre_render
       }, @post.to_liquid(attrs))
+    end
+
+    def is_localized
+      if post.data.key?('langs') && !post.data['langs'].nil?
+        if post.data['langs'].count > 0
+          if !post.data['langs'].include?('en')
+            return true
+          end
+        end
+      end
+      return false
     end
   end
 
@@ -107,27 +128,33 @@ module Jekyll
 
   # Contains an author for side-bar rendering
   class Author
-    attr_accessor :id, :url, :name, :avatar, :twitter, :website, :job, :posts
+    attr_accessor :id, :url, :name, :avatar, :twitter, :website, :github, :stack, :job
 
     def initialize(site, author_doc)
       author_data = author_doc.data
       @id = author_data['id']
-      @url = "#{site.baseurl}/authors/#{id}"
+      @url = "#{site.baseurl}/authors/#{id}/"
       @name = author_data['name']
       @avatar = author_data['avatar']
       @twitter = author_data['twitter']
       @website = author_data['website']
+      @github = author_data['github']
+      @stack = author_data['stack']
       @job = author_data['job']
-      @posts = []
+      @_posts = []
       All.authors[@id] = self
     end
 
+    def posts
+      @_posts.sort_by {|post| -post.date.to_f}
+    end
+
     def add_post(pre_post)
-      @posts << pre_post
+      @_posts << pre_post
     end
 
     def post_count
-      @posts.size
+      @_posts.size
     end
 
     def to_liquid(attrs = nil)
@@ -136,6 +163,9 @@ module Jekyll
         'name' => name,
         'avatar' => avatar,
         'twitter' => twitter,
+        'website' => website,
+        'github' => github,
+        'stack' => stack,
         'url' => url,
         'job' => job,
         'posts' => posts
@@ -144,6 +174,21 @@ module Jekyll
   end
  
   module Generators
+    class Speakers < Generator
+      def generate(site)
+        speaker_tags = ['engineering', 'community', 'design', 'recruiting', 'product', 'marketing', 'sales', 'diversity']
+        site.data['speaker_tags'] = speaker_tags
+
+        for tag in speaker_tags
+          page = Page.new(site, site.source, 'speakers/', 'index.html')
+          page.data['people'] = site.collections['people'].docs.select { |p| p.data['speaker_tags'] && p.data['speaker_tags'].include?(tag)  }
+          page.dir = 'speakers/' + tag + '/'
+          page.data['tag'] = tag
+          site.pages << page          
+        end
+      end
+    end
+
     class Pagination < Generator
       # This generator is safe from arbitrary code execution.
       safe true
@@ -159,8 +204,8 @@ module Jekyll
 
         # Here we want to pre-render all the posts once rather than once for each pagining permutation they appear in
         Jekyll.logger.info 'Starting: pre-generation of all list posts'
-        for author in site.collections['authors'].docs
-          Author.new(site, author)
+        for person in site.collections['people'].docs
+          Author.new(site, person) unless person.data['author'] == false
         end
 
         # Exclude drafts from all collections early on
@@ -169,7 +214,7 @@ module Jekyll
             Jekyll.logger.info 'Drafts are disabled (set posts_showdrafts: true in _config.yml to enable)'
         end
 
-        for post in site.posts
+        for post in site.posts.docs
           if disable_drafts && (post.data['draft'] || (post.date.nil? && post.date > site.time))
             next
           end
@@ -177,7 +222,7 @@ module Jekyll
           pre_post = PreRenderedPost.new(site, post)
           pre_post.set_author
 
-          for tag in post.tags
+          for tag in post.data['tags']
             All.tags[tag].add_post(pre_post)
           end
         end
@@ -228,11 +273,12 @@ module Jekyll
         path = path.sub(':tags', category_tags.join("/"))
 
         posts = All.posts
+        posts = posts.find_all{|post| !post.is_localized}
+
         for tag in category_tags
-          posts = posts.find_all{|post| post.tags.include?(tag)}
+          posts = posts.find_all{|post| post.data['tags'].include?(tag)}
         end
         posts = posts.sort_by {|post| -post.date.to_f}
-
         paginate_inner(site, path, posts, category_tags, layout_source, page_data)
       end
 
@@ -262,7 +308,7 @@ module Jekyll
           # The pager itself, outputs the paginator object in Liquid
           pager = Pager.new(site, num_page, posts, pages, path + "/", category_tags, latest_authors)
           # The page itself, ALL are created in the paginator because none exist as .html for input
-          newpage = Page.new(site, site.source, layout_source ? site.config['layouts'] : path + "/", layout_source || 'index.html')
+          newpage = Page.new(site, site.source, layout_source ? site.config['layouts_dir'] : path + "/", layout_source || 'index.html')
           unless page_data.nil?
             page_data.each do |key, value|
               newpage.data[key] = value

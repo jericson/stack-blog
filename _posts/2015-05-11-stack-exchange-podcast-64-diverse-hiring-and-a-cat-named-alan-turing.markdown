@@ -1,5 +1,5 @@
 ---
-author: abbytmiller
+author: hairboat
 comments: true
 date: 2015-05-11 20:00:01+00:00
 layout: post
@@ -11,6 +11,8 @@ tags:
 - company
 - podcasts
 - diversity
+podcast: http://www.podtrac.com/pts/redirect.mp3/feeds.soundcloud.com/stream/204221383-stack-exchange-stack-exchange-podcast-episode-64-not-recorded-in-ithaca.mp3
+wordpress_id: 15818
 ---
 
 Welcome to Stack Exchange Podcast Episode #64, recorded in the podcast studio at Stack Exchange HQ in New York City, NY. 
@@ -39,7 +41,7 @@ Roberta didn't apply to work here when she first saw the listing (even though sh
 
 Roberta's hesitance to apply with us isn't surprising given lots of her past experiences with programming while female. Example: at a conference last summer, which she attended as a representative of Stack Overflow wearing a Stack Overflow t-shirt, one of the conference *organizers* assumed she was a booth babe. Lots of people visiting the Stack Overflow booth addressed their technical questions to Gabe, [who does *not* work as a developer here](http://blog.stackoverflow.com/2013/08/introducing-gabe-the-smiling-community-manager/). This is the kind of thing that happens all day every day in real life and on the Internet.
 
-<img src="https://i.stack.imgur.com/iMePz.jpg" alt="Roberta "Not A Booth Babe" Arcoverde" />
+<img src="https://i.stack.imgur.com/iMePz.jpg" alt="Roberta 'Not A Booth Babe' Arcoverde" />
 
 Another relevant link: [Coding Like a Girl](https://medium.com/@sailorhg/coding-like-a-girl-595b90791cce).
 

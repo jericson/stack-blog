@@ -1,7 +1,10 @@
 <article class="preview-post post{% if post.draft %} draft{% endif %}">
   {% if post.hero %}{% unless post.tags contains 'podcasts' %}
   <div class="hero-container">
-    <a class="hero_url" href="{{ post.url }}"><img class="hero" src=" {{ post.hero }}"></a>
+    <a class="hero_url" href="{{ post.url }}"><img class="hero" style ="background-image: linear-gradient(
+      rgba(37, 43, 51, 0.35),
+      rgba(37, 43, 51, 0.35)
+    ), url('{{ post.hero }}');"></a>
   </div>
   {% endunless %}{% endif %}
   <div class="media-padded">
@@ -12,7 +15,7 @@
       </div>
       {% endif %}
       <h1 class="h3"><a class="title" href="{{ post.url }}">{{ post.title }}</a></h1>
-      <p class="post-info">{{ post.date | date: "%B %e, %Y" }} &bull; By {{ author.name }} &bull; In {{ post.tags | join: ', ' }}</p>
+      <p class="post-info">{{ post.date | date: "%B %e, %Y" }} • By {{ author.name }} • In {{ post.tags | join: ', ' }}</p>
     </div>
     <div class="clearfix"></div>
 

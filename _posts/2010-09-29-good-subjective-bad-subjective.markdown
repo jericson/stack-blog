@@ -29,7 +29,7 @@ Avoid asking questions that are subjective, argumentative, or require extended d
 
 Thus, **questions that are not answerable -- discussions, debates, opinions -- should be closed as subjective**. It seems simple enough: Fact good; opinion and discussion bad. But why?
 
-Most forums and chat rooms have a scale problem. As in, _they don't_. The more people that join the discussion, the more noise each of those connections bring. So the forums get progressively noisier and noisier, and suddenly one day … [you stop learning](http://scobleizer.com/2009/11/02/the-chat-roomforum-problem-an-apology-to-technosailor/).
+Most forums and chat rooms have a scale problem. As in, _they don't_. The more people that join the discussion, the more noise each of those connections bring. So the forums get progressively noisier and noisier, and suddenly one day … [you stop learning](http://scobleizer.com/the-chat-roomforum-problem-an-apology-to-technosailor/).
 
 
 
@@ -41,7 +41,7 @@ Because we believe so deeply in _learning_, we are willing to go to great length
 
 Insisting on objectivity is fine for computing and mathematics. But once you get past the hard(ish) sciences, you veer towards the much softer social sciences. There are experts in these fields, but they are by definition, not exact. In fact, _most_ academic fields don't have objective answers. Topics like economics, engineering, the arts, literature, and social sciences don't exactly have correct and incorrect answers. There is a [growing list of proposals](http://area51.stackexchange.com/?tab=hot) about increasingly subjective topics, and we believe many of them are going to make great Stack Exchange sites!
 
-[![](http://blog.stackoverflow.com/wp-content/uploads/fields-arranged-by-purity.png)](http://xkcd.com/435/)
+[![On the other hand, physicists like to say physics is to math as sex is to masturbation.](http://imgs.xkcd.com/comics/purity.png)](http://xkcd.com/435/)
 
 That's where the problem starts.
 
@@ -59,7 +59,7 @@ Now turn the page.
 
 [Moms4mom](http://moms4mom.com/) was an early Stack Exchange 1.0 case study in subjectivity. The owners knew from the outset that the topic of parenting was inherently and deeply subjective, a fundamentally bad fit to our engine. Parenting is one of the most subjective subjects I can imagine; every child is different, every parent is different, and whole cultures are _wildly_ different in how they approach child rearing. After all, who can say for certain [what order one should watch the Star Wars (saga) with your children for the first time?](http://moms4mom.com/questions/161/what-order-should-i-watch-the-star-wars-saga-with-my-children-for-the-first-tim)
 
-The folks at Moms4mom owned up to the subjective issue and came up with a set of principles to create _useful_ subjective discussions on parenting: the [**Back It Up! Principle.**](http://moms4mom.com/back-it-up) Back It Up! means that your answers must be based on either:
+The folks at Moms4mom owned up to the subjective issue and came up with a set of principles to create _useful_ subjective discussions on parenting: the [**Back It Up! Principle.**](http://moms4mom.com/faq/) Back It Up! means that your answers must be based on either:
 
 
 
